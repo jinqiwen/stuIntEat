@@ -37,19 +37,19 @@ APP-文章推荐
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(23).png)
 
 APP-菜品分类
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(31).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(31).jpg)
 
 APP-医务室咨询
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(1).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(1).jpg)
 
 APP-体检数据录入1
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(43).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(43).jpg)
 
 APP-体检数据录入2
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(44).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(44).jpg)
 
 APP-学生周边医院检索
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(35).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(35).jpg)
 
 
 
