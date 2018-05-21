@@ -43,7 +43,7 @@ APP-医务室咨询
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(1).jpg)
 
 APP-体检数据录入1
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(43).jpg)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app1.jpg)
 
 APP-体检数据录入2
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(44).jpg)
