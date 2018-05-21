@@ -22,10 +22,7 @@
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/web3.png)
 
 APP-注册登陆
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(14).png)
-
-APP-注册登陆
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(1).png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(14).jpg)
 
 APP-菜品营养素统计1
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/apptupian/app%20(8).png)
