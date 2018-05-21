@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.stuIntelEat.dao.PubFCook.PubFCookMapper" >
+  <!-- 通过指定的原材料名称或id查询出对应的营养表 ，包括>20个属性-->
+<!--    <select id="getMaterialNur" parameterType="MNurtrition" resultType="MNurtrition">
+      SELECT * FROM m_nutrition 
+       <trim prefix="where" prefixOverrides="and|or">
+            <if test="id != null">
+			 and id =#{id}
+			</if>
+            <if test="mName != null">
+			 and mName like #{mName}
+			</if>
+        </trim> 
+   </select>
+  功能：查询的属性有原材料的名称，学校，食堂，数量，对应的管理员编号
+    <select id="getMaterialList" parameterType="MNurtrition" resultType="MNurtrition">
+        SELECT * FROM m_nutrition  
+         order by createId desc  limit #{starNum},#{pageSize} 
+    </select>  -->
+
+  <!-- 查询上架菜品(super admin) -->
+  <select id="getpubFCook" parameterType="fCook" resultType="fCook">
+   select * from f_cook
+        <trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null">
+			 and id = #{id}
+			</if>
+			<if test="fKey != null">
+			 and fKey like #{fKey}
+			</if>
+			<if test="isPub != null">
+			 and isPub =#{isPub}
+			</if>
+			
+        </trim> 
+         order by id desc limit #{starNum},#{pageSize}
+  </select>
+
+    <!--   查询已上架菜品操作(froom admin) /条件查询-->
+    <select id="getPubFoodCooklist" parameterType="fCook" resultType="fCook">
+       select * from f_cook 
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test=" isPub != null">
+				and isPub = #{isPub}
+			</if>
+			<if test = "adminId != null ">
+				and adminId = #{adminId}
+			</if>
+			<if test = "fKey != null ">
+				and fKey like #{fKey}
+			</if>
+		</trim>
+		 order by id desc limit #{starNum},#{pageSize}
+    </select>
+     <update id="downFoodCook" parameterType="fCook">
+       update f_cook 
+			 <set>
+				 <if test="isPub != null"> isPub = #{isPub}</if>
+		     </set>
+		  	where id = #{id} 
+      </update>
+<!-- 查询原材料的数量，常用于分页 -->
+	<select id="materialCount" resultType="int" parameterType="MNurtrition">
+		select count(1) from f_cook
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="isPub != null">
+			 and isPub =#{isPub}
+			</if>
+		</trim>
+	</select>
+	<!-- 查询原材料的数量，常用于分页 -->
+	<select id="fCookcount" resultType="int" parameterType="fCook">
+		select count(1) from f_cook
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="isPub != null">
+			 and isPub =#{isPub}
+			</if>
+			<if test="adminId != 0">
+			 and adminId =#{adminId}
+			</if>
+		</trim>
+	</select>
+  </mapper>
+

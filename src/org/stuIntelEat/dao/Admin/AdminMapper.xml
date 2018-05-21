@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.stuIntelEat.dao.Admin.AdminMapper" >
+             <select id="getLoginAdmin" parameterType="Admin" resultType="Admin">
+                   select * from au_admin  where loginCode=#{loginCode} and password=#{password};  
+             </select>
+    <select id="getAdminList" parameterType="admin" resultType="admin">
+        select * from au_admin  
+       <trim prefix="where" prefixOverrides="and|or">
+        <if test="name != null">
+			 and name =  #{name}
+			</if>
+			<if test="company != null">
+			 and company like #{company}
+			</if>
+			<if test="position != null">
+			  and position = #{position}
+			</if>
+			<if test="department != null">
+			  and department = #{department}
+			</if>
+			<if test="froom != null">
+			  and froom like #{froom}
+			</if>
+			<if test="school != null">
+			  and school like #{school}
+			</if>
+			<if test="loginCode != null">
+			  and loginCode like #{loginCode}
+			</if>
+		<!-- 	<if test="roleId != null">
+			  and roleId = #{roleId}
+			</if> -->
+        </trim> 
+         order by createTime desc  limit #{starNum},#{pageSize} 
+    </select>
+ 
+ 
+     <select id="getAdminById" parameterType="int" resultType="admin">
+        	select * from au_admin where id = #{id}
+    </select>
+      <insert id="addAdmin" parameterType="admin">
+        insert into  au_admin(loginCode,password,name,company,info,position,department,school,froom,roleId,telephone,sex,createTime) 
+        values(#{loginCode},#{password},#{name},#{company},#{info},#{position},#{department},#{school},#{froom},#{roleId},#{telephone},#{sex},#{createTime})
+      </insert>
+     
+	<update id="delAdminPic" parameterType="Admin">
+		update au_admin
+			<set>
+			 	 <if test="picture != null"> idCardPicPath = null,</if>
+		     </set>
+		  	where id = #{id}
+	</update>
+	<update id="delAdmin" parameterType="int" >
+			delete from au_admin where id = #{id}
+	</update>
+  <update id="modifyPwd" parameterType="Admin">
+     update au_admin 
+    <trim prefix="set" suffixOverrides="," suffix="where id =#{id}">
+         <if test="password != null ">password=#{password}, </if>
+    </trim>
+  </update> 
+  <update id="modifyAdmin" parameterType="Admin">
+     update au_admin 
+    <trim prefix="set" suffixOverrides="," suffix="where id =#{id}">
+         <if test="name != null ">name=#{name}, </if>
+         <if test="sex!= null ">sex=#{sex}, </if>
+         <if test="department != null ">department=#{department}, </if>
+         <if test="position != null ">position=#{position}, </if>
+         <if test="school != null ">school=#{school}, </if>
+         <if test="froom != null ">froom=#{froom}, </if>
+         <if test="telephone != null ">telephone=#{telephone}, </if>
+         <if test="roleId != null ">roleId=#{roleId}, </if>
+    </trim>
+   
+  </update> 
+    
+<select id="count" resultType="int" parameterType="Admin">
+		select count(1) from au_admin
+		<trim prefix="where" prefixOverrides="and | or">
+			 <if test="name != null">
+			 and name like  #{name}
+			</if>
+			<if test="company != null">
+			 and company like #{company}
+			</if>
+			<if test="position != null">
+			  and position = #{position}
+			</if>
+			<if test="department != null">
+			  and department = #{department}
+			</if>
+			<if test="froom != null">
+			  and froom like #{froom}
+			</if>
+			<!-- <if test="roleId != null">
+			  and roleId = #{roleId}
+			</if> -->
+		</trim>
+	</select>
+	<select id="loginCodeIsExit" resultType="int" parameterType="string">
+		select count(1) from au_admin where loginCode = #{loginCode}
+	</select>
+  </mapper>
+

@@ -1,0 +1,87 @@
+package org.stuIntelEat.tool;
+
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+public class RedisAPI {
+	public JedisPool jedisPool;
+
+	public JedisPool getJedisPool() {
+		return jedisPool;
+	}
+
+	public void setJedisPool(JedisPool jedisPool) {
+		this.jedisPool = jedisPool;
+	}
+	/**
+	 * set key and value to redis
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public boolean set(String key, String value) {
+		try {
+			Jedis jedis = jedisPool.getResource();
+			jedis.set(key, value);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+
+	}
+
+	/**
+	 * 判断某个key是否存在
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public boolean exist(String key) {
+		try {
+			Jedis jedis = jedisPool.getResource();
+			return jedis.exists(key);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	/**
+	 * 获取数据
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public String get(String key) {
+		Jedis jedis = jedisPool.getResource();
+		String value = null;
+		try {
+			jedis = jedisPool.getResource();
+			value = jedis.get(key);
+			return value;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			returnResource(jedisPool, jedis);
+
+		}
+		return value;
+
+	}
+
+	/**
+	 * 返还到连接池
+	 * 
+	 * @param pool
+	 * @param redis
+	 */
+	public static void returnResource(JedisPool pool, Jedis jedis) {
+		if (null != jedis) {
+			pool.returnResource(jedis);
+		}
+	}
+}

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.stuIntelEat.dao.FCook.FCookMapper" >
+<!--   查询出指定名称的菜品或id的菜品名称，菜品图片，adminId -->
+   <select id="getFCook" parameterType="fCook" resultType="fCook">
+     SELECT * FROM f_cook  
+       <trim prefix="where" prefixOverrides="and|or">
+            <if test="id != null">
+			 and id =#{id}
+			</if>
+            <if test="fName != null">
+			 and fName like #{fName}
+			</if>
+        </trim> 
+   </select>
+<!--   查询出指定学校或食堂的菜品名称，菜品图片,adminId-->
+    <select id="getFCookList" parameterType="fCook" resultType="fCook">
+       SELECT * FROM f_cook  
+         <trim prefix="where" prefixOverrides="and|or">
+		     <if test="fName != null">
+			 and fName like #{fName}
+		   </if>
+		    <if test="fClassify != null">
+			 and fClassify like #{fClassify}
+		   </if>
+        </trim> 
+         order by id DESC  limit #{starNum},#{pageSize} 
+    </select>
+<!--   通过条件查询菜品列表(froom admin)-->
+      <select id="getFoodCookList" parameterType="fCook" resultType="fCook">
+       SELECT * FROM f_cook  
+         <trim prefix="where" prefixOverrides="and|or">
+           <if test="school != null">
+			 and school like #{school}
+			</if>
+			<if test="fName != null">
+			 and fName like #{fName}
+			</if>
+			<if test="adminId != null">
+			 and adminId =#{adminId}
+			</if>
+				<if test="windowId != 0">
+			 and windowId =#{windowId}
+			</if>
+        </trim> 
+         order by id DESC  limit #{starNum},#{pageSize} 
+    </select>
+   
+    <!-- 获取菜品的组成成分 -->
+ <select id="getFoodMakeList" parameterType="int" resultType="FoodMake">
+       SELECT * FROM f_make WHERE fId IN (SELECT id FROM f_cook where id=#{id});
+ </select>
+ <select id="getSfByadminIds" parameterType="int" resultType="FoodMake">
+      SELECT * FROM au_admin WHERE id IN (SELECT adminId FROM f_make where adminId=#{adminId});
+ </select>
+ 
+  <!-- 上架(froom admin) -->
+  <update id="pubFoodCook" parameterType="fCook">
+		update f_cook set isPub = #{isPub} where adminId = #{adminId} and id=#{id}
+  </update>
+	 <!-- //获取单个菜品基本信息操作(froom admin) -->
+	  <select id="getfoodCook" parameterType="fCook" resultType="fCook">
+       SELECT * FROM f_cook  
+         <trim prefix="where" prefixOverrides="and|or">
+           <if test="id != null">
+			 and id = #{id}
+			</if>
+			<if test="adminId != null">
+			 and adminId = #{adminId}
+			</if>
+			 <if test="fName != null">
+			 and fName like #{fName}
+			</if>
+			 <if test="windowId != null">
+			 and windowId = #{windowId}
+			</if>
+			 <if test="fClassify != null">
+			 and fClassify like #{fClassify}
+			</if>
+			<if test="fKey != null">
+			 and fKey  like #{fKey}
+			</if>
+        </trim> 
+    </select>
+     <!-- //获取单个菜品组成操作(froom admin) -->
+      <select id="getfMakelist" parameterType="FoodMake" resultType="FoodMake">
+       SELECT * FROM f_make  
+         <trim prefix="where" prefixOverrides="and|or">
+           <if test="fId != null">
+			 and fId = #{fId}
+			</if>
+			<if test="adminId != null">
+			 and adminId = #{adminId}
+			</if>
+        </trim> 
+    </select>
+	<!-- 删除菜品-->
+    <delete id ="delFoodCook" parameterType="int">
+		delete from f_cook where id = #{id}
+	</delete>
+	<!-- 删除菜品的图片-->
+	<update id="delFcookPic" parameterType="fCook">
+		update f_cook 
+			<set>
+			 	 <if test="fImg != null"> fImg = null,</if>
+		     </set>
+		  	where id = #{id}
+	</update>
+	<!-- 更新fcook操作 -->
+		<update id="modifyfCook" parameterType="fCook">
+		update f_cook 
+			 <set>
+			 	 <if test="fImg != null"> fImg = #{fImg},</if>
+			 	 <if test="windowId != null"> windowId = #{windowId},</if>
+			 	 <if test="fName != null"> fName = #{fName},</if>
+			 	 <if test="fKey != null"> fKey = #{fKey},</if>
+			 	 <if test="fPrice != null"> fPrice = #{fPrice},</if>
+			 	 <if test="fClassify != null"> fClassify = #{fClassify},</if>
+			 	 <if test="everyone != null"> everyone = #{everyone},</if>
+		     </set>
+		 where id = #{id} 
+	</update>
+	 <!--更新f_make操作 -->
+	 <update id="modifyfMake" parameterType="FoodMake">
+		update f_make
+			 <set>
+			 	 <if test="content != null"> content = #{content},</if>
+		     </set>
+		 where fId = #{fId} and  mId = #{mId}
+	</update>
+
+	<!-- 添加fcook操作(froom admin) -->
+	<insert id="addfCook" parameterType="fCook">
+		insert into f_cook (fName,fKey,fImg,fPrice,fClassify,windowId,adminId,
+							 everyone,isPub) values 
+							 (#{fName},#{fKey},#{fImg},#{fPrice},#{fClassify},#{windowId},
+							 #{adminId},#{everyone},#{isPub})
+	</insert>
+	<!-- 添加f_make操作(froom admin) -->
+	<insert id="addfMake" parameterType="FoodMake">
+		insert into f_make (fId,mId,mName,content,adminId) values 
+					(#{fId},#{mId},#{mName},#{content},#{adminId})
+	</insert>
+	
+	  <!--  //添加f_nurtration操作 -->
+     <insert id="addfNurtration" parameterType="FNurtrition">
+		insert into f_nutrition(fName,heatCount,fat,fibrin,vC,carotenes,riboflavin,cholesterol,ca,zn,mn,p,se,carbohy,protein,vA,vE,thiamine,niacin,mg,fe,cu,k,na,vB) 
+        values(#{fName},#{heatCount},#{fat},#{fibrin},#{vC},#{carotenes},#{riboflavin},#{cholesterol},#{ca},#{zn},#{mn},#{p},#{se},#{carbohy},#{protein},#{vA},#{vE},#{thiamine},#{niacin},#{mg},#{fe},#{cu},#{k},#{na},#{vB})
+      </insert>
+	<!-- 查询菜品的数量，常用于分页 -->
+	<select id="Fcookcount" resultType="int" parameterType="fCook">
+		select count(1) from f_cook
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="fName != null">
+			 and fName like  CONCAT('%',#{fName},'%')
+			</if>
+			<if test="fKey != null">
+			 and fKey like  CONCAT('%',#{fKey},'%')
+			</if>
+			<if test="fClassify != null">
+			  and fClassify like  CONCAT('%',#{fClassify},'%')
+			</if>
+			
+		</trim>
+	</select>
+  </mapper>
+

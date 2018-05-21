@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.stuIntelEat.dao.Material.MaterialMapper" >
+ <!-- 通过指定的原材料名称或id查询出对应的营养表 ，包括>20个属性-->
+   <select id="getMaterialNur" parameterType="MNurtrition" resultType="MNurtrition">
+      SELECT * FROM m_nutrition 
+       <trim prefix="where" prefixOverrides="and|or">
+            <if test="id != null">
+			 and id =#{id}
+			</if>
+            <if test="mName != null">
+			 and mName like #{mName}
+			</if>
+        </trim> 
+   </select>
+ <!--  功能：查询的属性有原材料的名称，学校，食堂，数量，对应的管理员编号 -->
+    <select id="getMaterialList" parameterType="sMaterialNum" resultType="sMaterialNum">
+        SELECT * FROM s_material
+         order by id ASC  limit #{starNum},#{pageSize} 
+    </select>
+
+ <!-- <select id="getMaterialListByTerm" parameterType="MNurtrition" resultType="MNurtrition">
+         select * from m_nutrition
+       <trim prefix="where" prefixOverrides="and|or">
+           <if test="school != null">
+			 and school =  #{school}
+			</if>
+			<if test="froom != null">
+			 and froom like #{froom}
+			</if>
+        </trim> 
+         order by createId desc  limit #{starNum},#{pageSize} 
+    </select> -->
+ 
+ 
+ <!--     <select id="getAdminById" parameterType="int" resultType="admin">
+        	select * from au_admin where id = #{id}
+    </select> -->
+   <!--   查询操作(froom admin) -->
+    <select id="getMateriallist" parameterType="sMaterialNum" resultType="sMaterialNum">
+       SELECT * FROM s_material WHERE adminId=#{adminId}
+        order by id ASC  limit #{starNum},#{pageSize} 
+    </select>
+     <insert id="addMaterial" parameterType="sMaterialNum">
+        insert into  s_material(adminId,mId,content,updateTime,mName) 
+        values(#{adminId},#{mId},#{content},#{updateTime},#{mName})
+      </insert>
+     <!--  验证操作(froom admin) -->
+    <select id="MaterialIsExit" parameterType="MNurtrition" resultType="int">
+       SELECT count(1) FROM m_nutrition
+	<trim prefix="where" prefixOverrides="and | or">
+				<if test="mName != null">
+				  and mName =  #{mName}
+				</if>
+			</trim>
+    </select>
+    <!-- 推荐名词操作(froom admin) -->
+     <select id="RecomMaterial" parameterType="MNurtrition" resultType="string">
+       SELECT mName FROM m_nutrition
+	<trim prefix="where" prefixOverrides="and | or">
+				<if test="partMName != null">
+				  and mName like  CONCAT('%',#{partMName},'%')
+				</if>
+			</trim>
+    </select>
+
+   
+	<!-- 修改库存量操作(froom admin) -->
+	<update id="modifyContent" parameterType="sMaterialNum" >
+		update s_material 
+			<set>
+			 	 <if test="content != null"> content  = #{content},</if>
+			 	 <if test="updateTime != null"> updateTime  = #{updateTime},</if>
+		     </set>
+		  	where mId = #{mId} and adminId=#{adminId}
+	</update>
+	
+      <!-- 删除操作(froom admin) -->
+	<delete id="delMaterial" parameterType="int">
+		delete from s_material  where id = #{id}
+	</delete>
+	
+	<!-- 查询原材料的数量，常用于分页 -->
+	<select id="materialCount" resultType="int" parameterType="sMaterialNum">
+		select count(1) from s_material
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="school != null">
+			 and school like  CONCAT('%',#{school},'%')
+			</if>
+			<if test="adminId != 0">
+			 and adminId =#{adminId}
+			</if>
+		</trim>
+	</select>
+  </mapper>
+
