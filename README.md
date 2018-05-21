@@ -7,4 +7,4 @@
 
 4.项目主要功能为食堂外卖，用户购买菜品分析，菜品分类，菜品详情、朋友圈，好友聊天，用户管理，医务室咨询、健康知识推送，体检数据录入，原材料管理，菜品管理、发布管理、食堂外卖运营分析、成员管理。
 
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/shiyan1.png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/web (7).png)
