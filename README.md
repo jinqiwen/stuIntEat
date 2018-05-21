@@ -10,7 +10,7 @@
 相关截图展示：
 
 网站后台-食堂外卖运营分析1
-![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/shiyan1.png)
+![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/web%20(1).png)
 
 网站后台-食堂外卖运营分析2
 ![image](https://github.com/jinqiwen/stuIntEat/blob/master/picture/web%20(6).png)
